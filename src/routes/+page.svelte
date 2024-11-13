@@ -10,6 +10,7 @@
 
 	const ollama = new Ollama({ host: PUBLIC_OLLAMA_API });
 
+	let messages = $state<{ role: string; content: string }[]>([]);
 	let result = $state<string>('');
 	let spoke = $state<null | string>(null);
 	let listening = $state(false);
@@ -26,9 +27,10 @@
 					listening = false;
 					if (spoke) {
 						console.log('ollama will receive: ' + spoke);
+						messages.push({ role: 'user', content: spoke });
 						const response = await ollama.chat({
-							model: 'llama3.2:1b',
-							messages: [{ role: 'user', content: spoke }],
+							model: 'tars',
+							messages,
 							stream: true
 						});
 						for await (const part of response) {
@@ -36,6 +38,7 @@
 						}
 						spoke = null;
 						if (result) {
+							messages.push({ role: 'assistant', content: result });
 							await TextToSpeech.speak({
 								text: result,
 								lang: 'it-IT',

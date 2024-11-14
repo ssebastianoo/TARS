@@ -1,17 +1,29 @@
 <script lang="ts">
 	import '../app.css';
 	import '@fontsource/roboto';
+	import { StatusBar, Style } from '@capacitor/status-bar';
+	import { NavigationBar } from '@capgo/capacitor-navigation-bar';
 	import { App, Page, Panel, Link } from 'konsta/svelte';
 	import { Settings, Menu, Github, Home } from 'lucide-svelte';
 	import { page } from '$app/stores';
 	import { cn } from '$lib/utils';
+	import { onMount } from 'svelte';
 
 	let { children } = $props();
-
 	let open = $state(false);
+
+	onMount(async () => {
+		await StatusBar.setStyle({ style: Style.Dark });
+		await StatusBar.setBackgroundColor({
+			color: '#201a17'
+		});
+		await NavigationBar.setNavigationBarColor({
+			color: '#201a17'
+		});
+	});
 </script>
 
-<App dark={true}>
+<App dark={true} safeAreas>
 	<Page class="p-4">
 		<div class="h-8">
 			<button onclick={() => (open = true)}><Menu class="text-md-dark-primary" /></button>

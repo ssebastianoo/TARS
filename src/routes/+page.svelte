@@ -26,9 +26,6 @@
 			speed = parseFloat((await Preferences.get({ key: 'speed' })).value!);
 		} else speed = defaultConfig.speed.value;
 
-		console.log(ollamaApi);
-		console.log(speed);
-
 		const ollama = new Ollama({ host: ollamaApi });
 
 		const permissions = await SpeechRecognition.checkPermissions();
@@ -95,21 +92,21 @@
 </script>
 
 <div class="flex h-2/3 items-center justify-center">
-	<div
-		class="m-4 max-h-full overflow-auto rounded-2xl bg-md-light-surface-1 text-md-light-on-surface dark:bg-md-dark-surface-1 dark:text-md-dark-on-surface"
-	>
-		{#if listening && !spoke}
-			<p class="p-4 text-sm">Listening...</p>
-		{:else if spoke}
-			<p class="p-4 text-sm">
-				{spoke}
-			</p>
-		{:else if !listening && result != ''}
+	{#if listening}
+		<p>Listening...</p>
+	{:else if !listening && result != ''}
+		<div
+			class="m-4 max-h-full overflow-auto rounded-2xl bg-md-light-surface-1 text-md-light-on-surface dark:bg-md-dark-surface-1 dark:text-md-dark-on-surface"
+		>
 			<p class="p-4 text-sm">
 				{result}
 			</p>
-		{/if}
-	</div>
+		</div>
+	{:else if loading}
+		<p>Thinking really hard about that</p>
+	{:else}
+		<p>Got something to say?</p>
+	{/if}
 </div>
 <div class="flex h-1/3 flex-col items-center justify-center gap-[50px]">
 	{#if loading}
@@ -117,6 +114,11 @@
 			class="h-18 w-18 animate-spin rounded-full border-4 border-md-dark-primary-container border-b-md-dark-primary"
 		></div>
 	{:else}
+		<div class="absolute h-0 w-full -translate-y-13">
+			<p class="absolute bottom-0 left-1/2 -translate-x-1/2 text-center text-sm">
+				{spoke}
+			</p>
+		</div>
 		<div
 			class={cn(
 				'absolute h-18 w-18 rounded-full bg-md-dark-surface-5',

@@ -15,11 +15,11 @@ module.exports = konstaConfig({
 			keyframes: {
 				grow: {
 					'0%, 100%': { transform: 'scale(1)' },
-					'50%': { transform: 'scale(1.1)' }
+					'50%': { transform: 'scale(1.3)' }
 				}
 			},
 			animation: {
-				grow: 'grow 1.3s ease-in-out infinite'
+				grow: 'grow 1.2s ease-in-out infinite'
 			}
 		}
 	},

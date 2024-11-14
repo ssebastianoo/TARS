@@ -1,2 +1,4 @@
 - [ ] add ollama server input inside app
 - [ ] understand why the ollama npm library is breaking the build (works in dev)
+- [ ] settings
+- [ ] haptics

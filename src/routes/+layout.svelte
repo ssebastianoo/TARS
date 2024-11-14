@@ -1,8 +1,10 @@
 <script lang="ts">
 	import '../app.css';
 	import '@fontsource/roboto';
-	import { App, Page, Panel } from 'konsta/svelte';
-	import { Settings, Menu, Github } from 'lucide-svelte';
+	import { App, Page, Panel, Link } from 'konsta/svelte';
+	import { Settings, Menu, Github, Home } from 'lucide-svelte';
+	import { page } from '$app/stores';
+	import { cn } from '$lib/utils';
 
 	let { children } = $props();
 
@@ -18,17 +20,37 @@
 			{@render children()}
 		</div>
 		<Panel side="left" opened={open} onBackdropClick={() => (open = false)}>
-			<Page class="p-4">
-				<div>
-					<a href="/settings" class="flex items-center gap-2">
-						<Settings size={20} class="text-md-dark-primary" />
-						<span>Settings</span>
-					</a>
-					<a href="https://github.com/ssebastianoo/TARS" class="flex items-center gap-2">
-						<Github size={20} class="text-md-dark-primary" />
-						<span>Source</span>
-					</a>
-				</div>
+			<Page class="flex flex-col justify-center p-4">
+				<Link
+					class={cn(
+						'!justify-start gap-1 rounded-lg p-3',
+						$page.url.pathname === '/' && 'bg-md-dark-surface-2'
+					)}
+					href="/"
+					onclick={() => (open = false)}
+				>
+					<Home />
+					<span>Home</span>
+				</Link>
+				<Link
+					class={cn(
+						'!justify-start gap-1 rounded-lg p-3',
+						$page.url.pathname === '/settings' && 'bg-md-dark-surface-2'
+					)}
+					href="/settings"
+					onclick={() => (open = false)}
+				>
+					<Settings />
+					<span>Settings</span>
+				</Link>
+				<Link
+					class="!justify-start gap-1 rounded-lg p-3"
+					href="https://github.com/ssebastianoo/TARS"
+					onclick={() => (open = false)}
+				>
+					<Github />
+					<span>GitHub</span>
+				</Link>
 			</Page>
 		</Panel>
 	</Page>

@@ -8,8 +8,8 @@
 	import { cn } from '$lib/utils';
 	import { PUBLIC_OLLAMA_API } from '$env/static/public';
 	import { Haptics, ImpactStyle } from '@capacitor/haptics';
-
-	const ollama = new Ollama({ host: PUBLIC_OLLAMA_API });
+	import { Preferences } from '@capacitor/preferences';
+	import defaultConfig from '$lib/defaultConfig';
 
 	let messages = $state<{ role: string; content: string }[]>([]);
 	let result = $state<string>('');
@@ -18,6 +18,19 @@
 	let loading = $state(false);
 
 	onMount(async () => {
+		const ollamaApi =
+			(await Preferences.get({ key: 'ollamaApi' })).value || defaultConfig.ollamaApi.value;
+
+		let speed: number;
+		if ((await Preferences.get({ key: 'speed' })).value) {
+			speed = parseFloat((await Preferences.get({ key: 'speed' })).value!);
+		} else speed = defaultConfig.speed.value;
+
+		console.log(ollamaApi);
+		console.log(speed);
+
+		const ollama = new Ollama({ host: ollamaApi });
+
 		const permissions = await SpeechRecognition.checkPermissions();
 		if ((permissions.speechRecognition as string) !== 'granted') {
 			await SpeechRecognition.requestPermissions();
@@ -45,7 +58,7 @@
 							await TextToSpeech.speak({
 								text: result,
 								lang: 'it-IT',
-								rate: 1.0,
+								rate: speed,
 								pitch: 1.0,
 								volume: 1.0,
 								category: 'ambient'
@@ -58,7 +71,6 @@
 			}
 		});
 		await SpeechRecognition.addListener('partialResults', (data) => {
-			console.log(data);
 			spoke = data.matches[0];
 		});
 	});

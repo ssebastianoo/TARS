@@ -14,7 +14,7 @@ const config: CapacitorConfig = {
 	},
 	android: {
 		buildOptions: {
-			keystorePath: 'tars-keystore.jks',
+			keystorePath: process.env.KEYSTORE,
 			keystorePassword: process.env.KEY_PASSWORD,
 			keystoreAlias: 'tars-key',
 			keystoreAliasPassword: process.env.KEY_PASSWORD

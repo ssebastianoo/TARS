@@ -8,10 +8,13 @@ const config: CapacitorConfig = {
 	appId: 'com.gir8.TARS',
 	appName: 'TARS',
 	webDir: 'build',
-	server: {
-		url: process.env.DEV_SERVER,
-		cleartext: true
-	},
+	server:
+		process.env.MODE === 'dev'
+			? {
+					url: process.env.DEV_SERVER,
+					cleartext: true
+				}
+			: undefined,
 	android: {
 		buildOptions: {
 			keystorePath: process.env.KEYSTORE,

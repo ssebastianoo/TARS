@@ -3,7 +3,7 @@
 	import { TextToSpeech } from '@capacitor-community/text-to-speech';
 	import { Ollama } from 'ollama/browser';
 	import { onMount } from 'svelte';
-	import { Page, Button } from 'konsta/svelte';
+	import { Button } from 'konsta/svelte';
 	import { Mic } from 'lucide-svelte';
 	import { cn } from '$lib/utils';
 	import { Haptics, ImpactStyle } from '@capacitor/haptics';
@@ -26,6 +26,9 @@
 				speed = parseFloat((await Preferences.get({ key: 'speed' })).value!);
 			} else speed = defaultConfig.speed.value;
 
+			console.log('api:');
+			console.log(ollamaApi);
+
 			const ollama = new Ollama({ host: ollamaApi });
 
 			const permissions = await SpeechRecognition.checkPermissions();
@@ -34,17 +37,21 @@
 			}
 
 			await SpeechRecognition.addListener('listeningState', async (data) => {
+				console.log('new status:', data.status);
 				if (data.status === 'stopped') {
 					setTimeout(async () => {
 						listening = false;
 						if (spoke) {
 							loading = true;
 							messages.push({ role: 'user', content: spoke });
+							console.log('sending messages:', messages);
+							console.log(messages[0].content);
 							const response = await ollama.chat({
 								model: 'tars',
 								messages,
 								stream: true
 							});
+							console.log('got a response');
 							for await (const part of response) {
 								result += part.message.content;
 							}

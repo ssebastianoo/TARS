@@ -35,6 +35,7 @@
 		"@capacitor-community/speech-recognition": "^6.0.1",
 		"@capacitor-community/text-to-speech": "^5.1.0",
 		"@capacitor/android": "^6.1.2",
+		"@capacitor/assets": "^3.0.5",
 		"@capacitor/core": "^6.1.2",
 		"@capacitor/haptics": "^6.0.1",
 		"@capacitor/preferences": "^6.0.2",
@@ -47,6 +48,7 @@
 		"konsta": "^4.0.1",
 		"lucide-svelte": "^0.456.0",
 		"ollama": "^0.5.10",
-		"tailwind-merge": "^2.5.4"
+		"tailwind-merge": "^2.5.4",
+		"vite-plugin-node-polyfills": "^0.22.0"
 	}
 }

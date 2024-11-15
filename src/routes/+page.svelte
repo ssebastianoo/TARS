@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 	import { TextToSpeech } from '@capacitor-community/text-to-speech';
-	import { Ollama } from 'ollama';
+	import { Ollama } from 'ollama/browser';
 	import { onMount } from 'svelte';
 	import { Page, Button } from 'konsta/svelte';
 	import { Mic } from 'lucide-svelte';
 	import { cn } from '$lib/utils';
-	import { PUBLIC_OLLAMA_API } from '$env/static/public';
 	import { Haptics, ImpactStyle } from '@capacitor/haptics';
 	import { Preferences } from '@capacitor/preferences';
 	import defaultConfig from '$lib/defaultConfig';

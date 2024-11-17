@@ -46,30 +46,58 @@
 						if (spoke) {
 							loading = true;
 							messages.push({ role: 'user', content: spoke });
-							console.log('sending messages:', messages);
-							console.log(messages[0].content);
 							const response = await ollama.chat({
 								model: 'tars',
 								messages,
 								stream: true
 							});
-							console.log('got a response');
+							let toSpeak = '';
 							for await (const part of response) {
 								result += part.message.content;
+								toSpeak += part.message.content;
+
+								for (const char of ['.', '?', '!', ',']) {
+									if (toSpeak.includes(char)) {
+										const textToSpeak = toSpeak.split(char)[0] + char;
+										toSpeak = toSpeak.split(char)[1];
+										TextToSpeech.speak({
+											text: textToSpeak,
+											lang: 'it-IT',
+											rate: speed,
+											pitch: 1.0,
+											volume: 1.0,
+											category: 'ambient',
+											voice,
+											queueStrategy: 1
+										});
+									}
+								}
 							}
-							loading = false;
-							spoke = null;
-							if (result) {
-								messages.push({ role: 'assistant', content: result });
-								await TextToSpeech.speak({
-									text: result,
+							if (toSpeak != '') {
+								TextToSpeech.speak({
+									text: toSpeak,
 									lang: 'it-IT',
 									rate: speed,
 									pitch: 1.0,
 									volume: 1.0,
 									category: 'ambient',
-									voice
+									voice,
+									queueStrategy: 1
 								});
+							}
+							loading = false;
+							spoke = null;
+							if (result) {
+								messages.push({ role: 'assistant', content: result });
+								// await TextToSpeech.speak({
+								// 	text: result,
+								// 	lang: 'it-IT',
+								// 	rate: speed,
+								// 	pitch: 1.0,
+								// 	volume: 1.0,
+								// 	category: 'ambient',
+								// 	voice
+								// });
 							}
 						} else {
 							result = 'Non ho capito.';

@@ -24,12 +24,14 @@
 			let speed: number;
 			if ((await Preferences.get({ key: 'speed' })).value) {
 				speed = parseFloat((await Preferences.get({ key: 'speed' })).value!);
-			} else speed = defaultConfig.speed.value;
+			} else speed = defaultConfig.speed.value as number;
 
-			console.log('api:');
-			console.log(ollamaApi);
+			let voice: number;
+			if ((await Preferences.get({ key: 'voice' })).value) {
+				voice = parseInt((await Preferences.get({ key: 'voice' })).value!);
+			} else voice = defaultConfig.voice.value as number;
 
-			const ollama = new Ollama({ host: ollamaApi });
+			const ollama = new Ollama({ host: ollamaApi as string });
 
 			const permissions = await SpeechRecognition.checkPermissions();
 			if ((permissions.speechRecognition as string) !== 'granted') {
@@ -65,7 +67,8 @@
 									rate: speed,
 									pitch: 1.0,
 									volume: 1.0,
-									category: 'ambient'
+									category: 'ambient',
+									voice
 								});
 							}
 						} else {

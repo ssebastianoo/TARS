@@ -8,5 +8,14 @@ export default {
 	speed: {
 		value: 1,
 		type: 'float'
+	},
+	voice: {
+		value: 17,
+		type: 'int'
 	}
+} as {
+	[key: string]: {
+		value: string | number;
+		type: string;
+	};
 };

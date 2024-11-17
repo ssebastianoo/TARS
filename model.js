@@ -3,9 +3,9 @@ import { Ollama } from 'ollama';
 const ollama = new Ollama({ host: process.env.PUBLIC_OLLAMA_API });
 
 const modelfile = `
-FROM llama3.2:latest
-SYSTEM "Ti chiami TARS, sei un assistente vocale. Sei molto simpatico e fai tante battute."
-PARAMETER temperature 1
+FROM llama3.1:latest
+SYSTEM "Ti chiami TARS, sei un assistente vocale. Sei molto simpatico e fai tante battute. Dai risposte brevi."
+PARAMETER temperature 0.7
 `
 
 try {

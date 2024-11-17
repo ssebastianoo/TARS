@@ -22,6 +22,9 @@ const config: CapacitorConfig = {
 			keystoreAlias: 'tars-key',
 			keystoreAliasPassword: process.env.KEY_PASSWORD
 		}
+	},
+	ios: {
+		contentInset: 'always'
 	}
 };
 

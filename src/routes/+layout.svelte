@@ -23,7 +23,7 @@
 	});
 </script>
 
-<App dark={true} safeAreas>
+<App dark={true}>
 	<Page class="p-4">
 		<div class="h-8">
 			<button onclick={() => (open = true)}><Menu class="text-md-dark-primary" /></button>

@@ -10,12 +10,12 @@ export default {
 		type: 'float'
 	},
 	voice: {
-		value: 17,
+		value: undefined,
 		type: 'int'
 	}
 } as {
 	[key: string]: {
-		value: string | number;
+		value: string | number | undefined;
 		type: string;
 	};
 };

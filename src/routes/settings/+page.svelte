@@ -19,7 +19,12 @@
 	});
 
 	async function updateSettings(key: string, target: HTMLInputElement) {
-		await Preferences.set({ key, value: target.value.toString() });
+		const value = target.value.toString();
+		if (value === 'default') {
+			await Preferences.remove({ key });
+		} else {
+			await Preferences.set({ key, value });
+		}
 	}
 </script>
 
@@ -33,6 +38,7 @@
 					class="rounded-lg border border-md-dark-surface-1 bg-md-dark-surface-2 p-2 !outline-none focus:border-md-dark-primary"
 					onchange={(e) => updateSettings(key, e.target as HTMLInputElement)}
 				>
+					<option selected={option.value === undefined} value="default">Default</option>
 					{#each voices as voice, index}
 						<option selected={index === parseInt(option.value as string)} value={index}
 							>{voice.voiceURI}</option

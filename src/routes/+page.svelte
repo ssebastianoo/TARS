@@ -26,10 +26,9 @@
 				speed = parseFloat((await Preferences.get({ key: 'speed' })).value!);
 			} else speed = defaultConfig.speed.value as number;
 
-			let voice: number;
-			if ((await Preferences.get({ key: 'voice' })).value) {
+			let voice: number | undefined = undefined;
+			if ((await Preferences.get({ key: 'voice' })).value)
 				voice = parseInt((await Preferences.get({ key: 'voice' })).value!);
-			} else voice = defaultConfig.voice.value as number;
 
 			const ollama = new Ollama({ host: ollamaApi as string });
 
@@ -39,7 +38,6 @@
 			}
 
 			await SpeechRecognition.addListener('listeningState', async (data) => {
-				console.log('new status:', data.status);
 				if (data.status === 'stopped') {
 					setTimeout(async () => {
 						listening = false;
